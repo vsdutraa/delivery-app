@@ -1,17 +1,21 @@
 import express from "express";
 
-import dishRoutes from "./routes/dishRoutes.js";
+import itemRoutes from "./routes/itemRoutes.js";
 import customerRoutes from "./routes/customerRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
 
 const app = express();
 app.use(express.json());
 const PORT = 8080;
 
-// dish routes
-app.use("/dishes", dishRoutes);
+// item routes
+app.use("/items", itemRoutes);
 
 // customer routes
 app.use("/customers", customerRoutes);
+
+// order routes
+app.use("/orders", orderRoutes);
 
 // err handling
 app.use((err, req, res, next) => {
