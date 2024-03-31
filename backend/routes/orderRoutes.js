@@ -70,6 +70,9 @@ router.delete("/:id", async (req, res) => {
   const id = req.params.id;
   if (!id) return res.status(400).send("No id was provided");
 
+  const order = await getOrderById(id);
+  if (!order) return res.status(404).send("The requested order does not exist");
+
   const deleted = await deleteOrder(id);
   if (deleted) res.status(200).send(true);
 });

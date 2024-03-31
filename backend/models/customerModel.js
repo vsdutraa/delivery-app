@@ -2,7 +2,7 @@ import pool from "../database.js";
 
 // get all customers
 export async function getCustomers() {
-  const [rows] = await pool.query("SELECT * FROM customers");
+  const [rows] = await pool.query(`SELECT * FROM customers`);
   return rows;
 }
 
@@ -10,9 +10,9 @@ export async function getCustomers() {
 export async function getCustomerById(id) {
   const [rows] = await pool.query(
     `
-      SELECT * FROM customers
-      WHERE customer_id = ?
-      `,
+    SELECT * FROM customers
+    WHERE customer_id = ?
+    `,
     [id]
   );
 
@@ -23,9 +23,9 @@ export async function getCustomerById(id) {
 export async function getCustomerByCpf(cpf) {
   const [rows] = await pool.query(
     `
-      SELECT * FROM customers
-      WHERE customer_cpf = ?
-      `,
+    SELECT * FROM customers
+    WHERE customer_cpf = ?
+    `,
     [cpf]
   );
   return rows[0];
@@ -33,13 +33,14 @@ export async function getCustomerByCpf(cpf) {
 
 // create a new customer
 export async function createCustomer(customer) {
-  const { name, cpf, phoneNumber, address } = customer;
+  const { customerName, customerCpf, customerPhoneNumber, customerAddress } =
+    customer;
   const [result] = await pool.query(
     `
     INSERT INTO customers(customer_name, customer_cpf, customer_phone_number, customer_address)
     VALUES (?, ?, ?, ?)
     `,
-    [name, cpf, phoneNumber, address]
+    [customerName, customerCpf, customerPhoneNumber, customerAddress]
   );
   const id = result.insertId;
   return getCustomerById(id);
@@ -47,14 +48,14 @@ export async function createCustomer(customer) {
 
 // update an existing customer
 export async function updateCustomer(id, customer) {
-  const { name, phoneNumber, address } = customer;
+  const { customerPhoneNumber, customerAddress } = customer;
   const [result] = await pool.query(
     `
     UPDATE customers
     SET customer_phone_number = ?, customer_address = ?
     WHERE customer_id = ?
     `,
-    [phoneNumber, address, id]
+    [customerPhoneNumber, customerAddress, id]
   );
   // returns a boolean indicating whether it was updated or not
   return result.affectedRows > 0;

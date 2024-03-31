@@ -1,8 +1,11 @@
 import express from "express";
 
 import itemRoutes from "./routes/itemRoutes.js";
+
 import customerRoutes from "./routes/customerRoutes.js";
+
 import orderRoutes from "./routes/orderRoutes.js";
+import orderItemRoutes from "./routes/orderItemRoutes.js";
 
 const app = express();
 app.use(express.json());
@@ -16,6 +19,7 @@ app.use("/customers", customerRoutes);
 
 // order routes
 app.use("/orders", orderRoutes);
+app.use("/orderItems", orderItemRoutes);
 
 // err handling
 app.use((err, req, res, next) => {

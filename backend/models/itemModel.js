@@ -2,7 +2,7 @@ import pool from "../database.js";
 
 // get all items
 export async function getItems() {
-  const [rows] = await pool.query("SELECT * FROM items");
+  const [rows] = await pool.query(`SELECT * FROM items`);
   return rows;
 }
 
@@ -10,10 +10,10 @@ export async function getItems() {
 export async function getItemById(id) {
   const [rows] = await pool.query(
     `
-      SELECT *
-      FROM items
-      WHERE item_id = ?
-      `,
+    SELECT *
+    FROM items
+    WHERE item_id = ?
+    `,
     [id]
   );
 
@@ -22,13 +22,13 @@ export async function getItemById(id) {
 
 // create a new item
 export async function createItem(item) {
-  const { name, description, value } = item;
+  const { itemName, itemDescription, itemValue } = item;
   const [result] = await pool.query(
     `
-      INSERT INTO items (item_name, item_description, item_value)
-      VALUES (?, ?, ?)
-      `,
-    [name, description, value]
+    INSERT INTO items (item_name, item_description, item_value)
+    VALUES (?, ?, ?)
+    `,
+    [itemName, itemDescription, itemValue]
   );
   const id = result.insertId;
   return getItemById(id);
@@ -36,14 +36,14 @@ export async function createItem(item) {
 
 // update a existing item by id
 export async function updateItem(id, item) {
-  const { name, description, value } = item;
+  const { itemName, itemDescription, itemValue } = item;
   const [result] = await pool.query(
     `
-      UPDATE items
-      SET item_name = ?, item_description = ?, item_value = ?
-      WHERE item_id = ?
-      `,
-    [name, description, value, id]
+    UPDATE items
+    SET item_name = ?, item_description = ?, item_value = ?
+    WHERE item_id = ?
+    `,
+    [itemName, itemDescription, itemValue, id]
   );
   // returns a boolean indicating whether it was updated or not
   return result.affectedRows > 0;

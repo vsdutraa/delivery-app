@@ -29,8 +29,8 @@ router.get("/:id", async (req, res) => {
 // create new item
 router.post("/", async (req, res) => {
   const item = req.body;
-  const { name, description, value } = item;
-  if (!name || !description || !value)
+  const { itemName, itemDescription, itemValue } = item;
+  if (!itemName || !itemDescription || !itemValue)
     return res.status(400).send("All fields are required");
   const newItem = await createItem(item);
   res.status(201).send(newItem);
@@ -41,8 +41,8 @@ router.put("/:id", async (req, res) => {
   const id = req.params.id;
   if (!id) return res.status(404).send("No id was provided");
   const item = req.body;
-  const { name, description, value } = item;
-  if (!name || !description || !value)
+  const { itemName, itemDescription, itemValue } = item;
+  if (!itemName || !itemDescription || !itemValue)
     return res.status(400).send("All fields are required");
   const updated = updateItem(id, item);
   if (updated) return res.status(200).send(true);
@@ -52,8 +52,10 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   const id = req.params.id;
   if (!id) return res.status(404).send("No id was provided");
+
   const item = await getItemById(id);
   if (!item) return res.status(404).send("The requested item does not exist");
+
   const deleted = await deleteItem(id);
   if (deleted) return res.status(200).send(true);
 });
