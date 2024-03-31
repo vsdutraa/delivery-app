@@ -21,6 +21,7 @@ router.get("/", async (req, res) => {
 // get customer by id
 router.get("/:id", async (req, res) => {
   const id = req.params.id;
+  if (!id) return res.status(404).send("No id was provided");
   const customer = await getCustomerById(id);
   res.status(200).send(customer);
 });
@@ -43,7 +44,7 @@ router.post("/", async (req, res) => {
 // update an existing customer by id
 router.put("/:id", async (req, res) => {
   const id = req.params.id;
-  if (id === null) return res.send("No id was provided");
+  if (!id) return res.send("No id was provided");
   const customer = req.body;
   // once the customer is created they cannot change their cpf or name
   const { phoneNumber, address } = customer;
@@ -56,7 +57,7 @@ router.put("/:id", async (req, res) => {
 // delete an existing customer by id
 router.delete("/:id", async (req, res) => {
   const id = req.params.id;
-  if (id === null) res.status(404).send("No id was provided");
+  if (!id) res.status(404).send("No id was provided");
   const dish = await getCustomerById(id);
   if (!dish)
     return res.status(404).send("The requested customer does not exist");
